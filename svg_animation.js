@@ -4,9 +4,11 @@ var pic = document.getElementById("vimage");
 
 var isClear = false;
 
+var inMotion = false; 
+
 var intv;
 
-var balls[];
+var dots = [];
 
 //Clear Function: 
 var clear_svg = function() {
@@ -14,18 +16,31 @@ var clear_svg = function() {
 	pic.removeChild(pic.lastChild);
     }
     isClear = true;
-    clearInterval(intv); 
+    clearInterval(intv);
+    dots = [];
+    inMotion = false; 
 };
 
 //Draws dots when SVG is clicked
 var clicked = function(e) {
     if (e.toElement == this) {
-	drawRand(); 
+	dots.push(makeDot()); 
+    }
+
+    inMotion = true;
+
+    if (inMotion) {
+	intv = setInterval(go, 20);
+	inMotion = !inMotion;
     }
 };
 
 //Drawing dots: 
-var makeDot = function(x, y, radius, fillColor) {  
+var makeDot = function() {  
+    var x = Math.random() * 500;
+    var y = Math.random() * 500; 
+    var radius = 25;
+    var fillColor = "lime";
     
     var dot = document.createElementNS(
 	"http://www.w3.org/2000/svg",
@@ -33,6 +48,7 @@ var makeDot = function(x, y, radius, fillColor) {
     )
 
     dot.display = function() {
+	
 	//Creating a circle based off of mouse positions (x, y coordinates) 
 	dot.setAttribute("cx", x);
 	dot.setAttribute("cy", y);
@@ -122,24 +138,14 @@ var makeDot = function(x, y, radius, fillColor) {
     return dot; 
 };
 
-//If the box is clicked on: 
-var drawRand = function() {
-    var x = Math.random() * 500;
-    var y = Math.random() * 500; 
-    var dot = makeDot(x, y, 25, "lime");
-
-    if (!isClear) {
-	intv = setInterval(go, 10);
-    }
-    
-	
-
-	
-    
-};
-
 var go = function() {
-    dot.move();
+    ///var count1 = 0;
+    //var count2 = 0;
+
+    for (count1 = 0; count1 < dots.length; count1++) {
+	dots[count1].move();
+	dots[count1].display(); 
+    }
 };
 
 //Tells SVG drawing space to listen to mouse clicks. Will trigger function clicked upon a mouse click. 

@@ -132,12 +132,15 @@ var drawRand = function() {
 	intv = setInterval(go, 10);
     }
     
-	dot.move(); 
+	
 
 	
     
 };
 
+var go = function() {
+    dot.move();
+};
 
 //Tells SVG drawing space to listen to mouse clicks. Will trigger function clicked upon a mouse click. 
 pic.addEventListener("click", clicked, true);
